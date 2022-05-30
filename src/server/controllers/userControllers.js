@@ -3,7 +3,7 @@ const chalk = require("chalk");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const fs = require("fs");
-const { path } = require("express/lib/application");
+const path = require("path");
 const User = require("../../database/models/User");
 
 const registerUser = async (req, res, next) => {
@@ -33,8 +33,8 @@ const registerUser = async (req, res, next) => {
       }`;
       debug(newFileName);
       fs.rename(
-        path.join("images", file.filename),
-        path.join("images", newFileName),
+        path.join("uploads", "images", file.filename),
+        path.join("uploads", "images", newFileName),
         (error) => {
           if (error) {
             debug(chalk.red(error.message));
