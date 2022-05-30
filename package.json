@@ -1,12 +1,13 @@
 {
-  "name": "gamersland-back",
+  "name": "set-appart-back",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
   "scripts": {
     "start": "node src",
     "start-dev": "nodemon src -q",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test": "jest --passWithNoTests"
   },
   "keywords": [],
   "author": "",
@@ -28,5 +29,14 @@
     "helmet": "^5.1.0",
     "mongoose": "^6.3.4",
     "morgan": "^1.10.0"
+    "mongoose": "^6.3.4"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/*/.js",
+      "!src/index.js",
+      "!src/database/index.js",
+      "!src/server/initializeServer.js"
+    ]
   }
 }
