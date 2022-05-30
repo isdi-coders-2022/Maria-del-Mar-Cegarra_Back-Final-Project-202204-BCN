@@ -38,7 +38,7 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/*/.js",
+      "src/**/*.js",
       "!src/index.js",
       "!src/database/index.js",
       "!src/server/initializeServer.js"
