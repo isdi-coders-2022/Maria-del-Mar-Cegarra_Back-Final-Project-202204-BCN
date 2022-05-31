@@ -12,7 +12,7 @@ const registerUser = async (req, res, next) => {
     debug(chalk.red("User already exists"));
     const error = new Error();
     error.customMessage = "User already exists";
-    error.statusCode = 409;
+    error.statusCode = 400;
 
     next(error);
   }

@@ -57,7 +57,7 @@ describe("Given the registerUser controller", () => {
       findOne.mockImplementation(() => mockUser);
       const expectedError = new Error();
       expectedError.customMessage = "User already exists";
-      expectedError.statusCode = 409;
+      expectedError.statusCode = 400;
       const next = jest.fn();
 
       await registerUser(req, null, next);
