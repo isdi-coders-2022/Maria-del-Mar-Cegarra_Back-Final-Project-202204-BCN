@@ -16,3 +16,6 @@ jobs:
 
       - name: Testing
         run: npm run test
+        env:
+          JWT_SECRET: ${{secrets.JWT_SECRET}}
+          MONGODB_STRING_TEST: ${{secrets.MONGODB_STRING_TEST}}
