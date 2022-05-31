@@ -6,10 +6,17 @@ const { mockUsers, mockUser } = require("../../mocks/userMocks");
 const app = require("..");
 const connectDB = require("../../database");
 
+let users;
 const testDB = process.env.MONGODB_STRING_TEST;
 
 beforeAll(async () => {
   await connectDB(testDB);
+});
+
+beforeEach(async () => {
+  users = mockUsers;
+  await User.create(users[0]);
+  await User.create(users[1]);
 });
 
 afterEach(async () => {

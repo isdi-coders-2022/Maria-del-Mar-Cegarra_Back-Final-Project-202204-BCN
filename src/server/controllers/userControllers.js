@@ -1,3 +1,4 @@
+require("dotenv").config();
 const debug = require("debug")("set-appArt:server:userControllers");
 const chalk = require("chalk");
 const jwt = require("jsonwebtoken");
