@@ -1,5 +1,6 @@
+const { compare } = require("bcrypt");
 const { findOne, create } = require("../../database/models/User");
-const { registerUser } = require("./userControllers");
+const { registerUser, loginUser } = require("./userControllers");
 
 const mockUser = {
   name: "Kawaii Neko",
@@ -78,6 +79,60 @@ describe("Given the registerUser controller", () => {
       const next = jest.fn();
 
       await registerUser(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given the loginUser controller", () => {
+  const res = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  };
+  const req = {
+    body: {
+      username: "kawaiiNeko",
+      password: "kawaiiNeko",
+    },
+  };
+  const next = jest.fn();
+
+  describe("When it receives a request with an existing user with correct password and a response", () => {
+    test("Then it should call res' status and json with 200 and a token", async () => {
+      findOne.mockImplementation(() => mockUser);
+      compare.mockImplementation(() => true);
+
+      const expectedStatus = 200;
+      const expectedToken = { token: "uwuwuwuwu" };
+
+      await loginUser(req, res, null);
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatus);
+      expect(res.json).toHaveBeenCalledWith(expectedToken);
+    });
+  });
+
+  describe("When it receives a request with a non-existing user and a response", () => {
+    test("Then it should call next function with a custom error 403 'Incorrect username or password'", async () => {
+      findOne.mockImplementation(() => undefined);
+      const expectedError = new Error("Incorrect username or password");
+      expectedError.statusCode = 403;
+
+      await loginUser(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+
+  describe("When it receives a request with anexisting user with an incorrect password and a response", () => {
+    test("Then it should call next function with a custom error 403 'Incorrect username or password'", async () => {
+      findOne.mockImplementation(() => mockUser);
+      compare.mockImplementation(() => false);
+      const expectedError = new Error("Incorrect username or password");
+      expectedError.statusCode = 403;
+
+      await loginUser(req, null, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
     });
