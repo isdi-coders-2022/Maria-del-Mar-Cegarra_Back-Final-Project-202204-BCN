@@ -2,7 +2,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const request = require("supertest");
 const User = require("../../database/models/User");
-const { mockUsers, mockUser } = require("../../mocks/userMocks");
+const { mockUsers, mockUser, mockuser0 } = require("../../mocks/userMocks");
 const app = require("..");
 const connectDB = require("../../database");
 
@@ -45,7 +45,7 @@ describe("Given the /users/login endpoint", () => {
     test("Then it should make a response with a token", async () => {
       const { token } = await request(app)
         .post("/user/login")
-        .send(mockUsers[0])
+        .send(mockuser0)
         .expect(200);
 
       expect(token).not.toBeNull();
