@@ -39,3 +39,16 @@ describe("Given the /users/register endpoint", () => {
     });
   });
 });
+
+describe("Given the /users/login endpoint", () => {
+  describe("When a POST request is made with an unexistant user", () => {
+    test("Then it should make a response with a token", async () => {
+      const { token } = await request(app)
+        .post("/user/login")
+        .send(mockUsers[0])
+        .expect(200);
+
+      expect(token).not.toBeNull();
+    });
+  });
+});
