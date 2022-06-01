@@ -1,0 +1,69 @@
+{
+	"info": {
+		"_postman_id": "5c8768cd-2fb1-4962-b279-0cc1d2dd10c2",
+		"name": "set-appArt_mariadelmar-cegarra",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20644406"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"name\": \"paca\",\r\n \"username\": \"paca3\", \r\n \"password\": \"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{origin}/user/register",
+					"host": [
+						"{origin}"
+					],
+					"path": [
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "origin",
+			"value": "https://maria-del-mar-cegarra-back-final-project.onrender.com",
+			"type": "string"
+		},
+		{
+			"key": "localhost",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
