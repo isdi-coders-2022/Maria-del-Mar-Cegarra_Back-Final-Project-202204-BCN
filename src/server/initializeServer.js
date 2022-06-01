@@ -6,7 +6,7 @@ const app = require("./index");
 const initializeServer = (port) =>
   new Promise((resolve, reject) => {
     const server = app.listen(port, () => {
-      debug(chalk.yellow(`Server listening on port ${port}`));
+      debug(chalk.yellow(`Server listening on http://localhost:${port}`));
       resolve();
     });
 
