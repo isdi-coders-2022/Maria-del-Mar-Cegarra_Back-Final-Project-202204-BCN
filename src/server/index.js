@@ -16,8 +16,8 @@ const corsOptions = {
     "http://localhost:5000",
     "http://localhost:5001",
     "http://localhost:5002",
-    "https://mariam-lliso-front-final-project-202204-bcn.netlify.app/",
-    "https://mariam-lliso-front-final-project-202204-bcn.netlify.app",
+    "https://maria-del-mar-cegarra-back-final-project.onrender.com/",
+    "https://maria-del-mar-cegarra-back-final-project.onrender.com",
   ],
 };
 
