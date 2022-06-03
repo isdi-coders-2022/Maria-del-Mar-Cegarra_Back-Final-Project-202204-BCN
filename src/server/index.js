@@ -3,12 +3,14 @@ const cors = require("cors");
 const { default: helmet } = require("helmet");
 const morgan = require("morgan");
 const userRouter = require("./routers/userRouter");
-const { generalError, notFoundError } = require("../middlewares/errors");
+const { notFoundError, generalError } = require("./middlewares/errors");
 
 const app = express();
 
 const corsOptions = {
   origin: [
+    "http://localhost:3000",
+    "http://localhost:3001",
     "http://localhost:4000",
     "http://localhost:4005",
     "http://localhost:4001",
