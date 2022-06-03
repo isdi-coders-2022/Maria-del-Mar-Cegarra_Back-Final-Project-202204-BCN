@@ -28,6 +28,7 @@ const mockPosts = [
 ];
 
 jest.mock("../../database/models/Post", () => ({
+  ...jest.requireActual("../../database/models/Post"),
   skip: jest.fn().mockResolvedValue([
     {
       picture: "picture3.jpg",
