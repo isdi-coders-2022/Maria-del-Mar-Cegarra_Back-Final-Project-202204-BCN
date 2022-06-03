@@ -1,4 +1,3 @@
-const Post = require("../../database/models/Post");
 const { getPosts } = require("./postControllers");
 
 const mockPosts = [
@@ -28,30 +27,24 @@ const mockPosts = [
   },
 ];
 
-// jest.mock("../../database/models/Post", () => ({
-//   skip: jest.fn().mockResolvedValue([
-//     {
-//       picture: "picture3.jpg",
-//       user: "1234",
-//       caption: "Picture 3",
-//       date: new Date("2000/2/12"),
-//     },
-//     {
-//       picture: "picture4.jpg",
-//       user: "9012",
-//       caption: "Picture 4",
-//       date: new Date("2000/2/12"),
-//     },
-//   ]),
-//   limit: () => () => this.skip,
-//   find: () => this,
-// }));
-
-const PostMock = {
-  find: jest.fn(() => StoryMock),
-  limit: jest.fn(() => StoryMock),
-  skip: jest.fn(() => []),
-};
+jest.mock("../../database/models/Post", () => ({
+  skip: jest.fn().mockResolvedValue([
+    {
+      picture: "picture3.jpg",
+      user: "1234",
+      caption: "Picture 3",
+      date: new Date("2000/2/12"),
+    },
+    {
+      picture: "picture4.jpg",
+      user: "9012",
+      caption: "Picture 4",
+      date: new Date("2000/2/12"),
+    },
+  ]),
+  limit: jest.fn().mockReturnThis(),
+  find: jest.fn().mockReturnThis(),
+}));
 
 describe("Given the getPosts controller", () => {
   describe("When it receives a request with a page size 2 and page 2, a response and a next function", () => {
@@ -70,7 +63,10 @@ describe("Given the getPosts controller", () => {
 
       await getPosts(req, res, next);
 
-      expect(next).toHaveBeenCalledWith("ad");
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        posts: [mockPosts[2], mockPosts[3]],
+      });
     });
   });
 });
