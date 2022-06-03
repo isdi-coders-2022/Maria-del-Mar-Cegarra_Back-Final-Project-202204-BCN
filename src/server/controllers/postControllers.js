@@ -15,7 +15,7 @@ const getPosts = async (req, res, next) => {
   try {
     const posts = await Post.find({})
       .limit(pageSize)
-      .skip(pageSize * page);
+      .skip(pageSize * (page - 1));
 
     res.status(200).json({ posts });
   } catch (error) {
