@@ -1,6 +1,5 @@
 const mockPosts = [
   {
-    id: "1",
     picture: "picture1.jpg",
     user: "629513c49a68faa58d20c284",
     caption: "Picture 1",
@@ -8,7 +7,6 @@ const mockPosts = [
     hashtags: ["painting"],
   },
   {
-    id: "1",
     picture: "picture2.jpg",
     user: "629621ccddb32826175e5b9e",
     caption: "Picture 2",
@@ -16,7 +14,6 @@ const mockPosts = [
     hashtags: ["painting"],
   },
   {
-    id: "1",
     picture: "picture3.jpg",
     user: "629513c49a68faa58d20c284",
     caption: "Picture 3",
@@ -24,7 +21,6 @@ const mockPosts = [
     hashtags: ["painting"],
   },
   {
-    id: "1",
     picture: "picture4.jpg",
     user: "629621ccddb32826175e5b9e",
     caption: "Picture 4",
@@ -32,7 +28,6 @@ const mockPosts = [
     hashtags: ["painting"],
   },
   {
-    id: "1",
     picture: "picture5.jpg",
     user: "629513c49a68faa58d20c284",
     caption: "Picture 5",
@@ -40,7 +35,6 @@ const mockPosts = [
     hashtags: ["painting"],
   },
   {
-    id: "1",
     picture: "picture6.jpg",
     user: "629621ccddb32826175e5b9e",
     caption: "Picture 6",
@@ -48,7 +42,6 @@ const mockPosts = [
     hashtags: ["painting"],
   },
   {
-    id: "1",
     picture: "picture7.jpg",
     user: "629513c49a68faa58d20c284",
     caption: "Picture 7",
@@ -56,7 +49,6 @@ const mockPosts = [
     hashtags: ["painting"],
   },
   {
-    id: "1",
     picture: "picture8.jpg",
     user: "629621ccddb32826175e5b9e",
     caption: "Picture 8",
