@@ -3,7 +3,7 @@ const chalk = require("chalk");
 const Post = require("../../database/models/Post");
 
 const getPosts = async (req, res, next) => {
-  const { pageSize, page } = req.body;
+  const { pageSize, page } = req.params;
   if (!(pageSize && page)) {
     const error = new Error();
     error.statusCode = 400;
@@ -15,7 +15,7 @@ const getPosts = async (req, res, next) => {
   try {
     const posts = await Post.find({})
       .limit(pageSize)
-      .skip(pageSize * page);
+      .skip(pageSize * (page - 1));
 
     res.status(200).json({ posts });
   } catch (error) {

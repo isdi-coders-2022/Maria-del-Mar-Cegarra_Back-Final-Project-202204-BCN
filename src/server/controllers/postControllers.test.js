@@ -28,6 +28,7 @@ const mockPosts = [
 ];
 
 jest.mock("../../database/models/Post", () => ({
+  ...jest.requireActual("../../database/models/Post"),
   skip: jest.fn().mockResolvedValue([
     {
       picture: "picture3.jpg",
@@ -50,7 +51,7 @@ describe("Given the getPosts controller", () => {
   describe("When it receives a request with a page size 2 and page 2, a response and a next function", () => {
     test("Then it should call res' status and json methods with 200 and 2 post objects respectively", async () => {
       const req = {
-        body: {
+        params: {
           pageSize: 2,
           page: 2,
         },
