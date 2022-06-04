@@ -8,6 +8,7 @@ const postRouter = express.Router();
 const uploads = multer({ dest: path.join("uploads", "images") });
 
 postRouter.post("/addPost", uploads.single("image"));
-postRouter.get("/", getPosts);
+
+postRouter.get("/pageSize=:pageSize&page=:page", getPosts);
 
 module.exports = postRouter;

@@ -3,7 +3,7 @@ const chalk = require("chalk");
 const Post = require("../../database/models/Post");
 
 const getPosts = async (req, res, next) => {
-  const { pageSize, page } = req.body;
+  const { pageSize, page } = req.params;
   if (!(pageSize && page)) {
     const error = new Error();
     error.statusCode = 400;
