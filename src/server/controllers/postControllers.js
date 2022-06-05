@@ -27,4 +27,27 @@ const getPosts = async (req, res, next) => {
   }
 };
 
-module.exports = { getPosts };
+const deletePost = async (req, res, next) => {
+  const { id } = req.params;
+  if (!id) {
+    const error = new Error();
+    error.statusCode = 400;
+    error.customMessage = "Please provide an id";
+    debug(chalk.red(error.customMessage));
+
+    next(error);
+  }
+  try {
+    const postDeleted = await Post.findByIdAndDelete(id);
+
+    res.status(200).json({ postDeleted });
+  } catch (error) {
+    error.statusCode = 409;
+    error.customMessage = "Error getting post";
+    debug(chalk.red(error.message));
+
+    next(error);
+  }
+};
+
+module.exports = { getPosts, deletePost };
