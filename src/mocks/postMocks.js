@@ -49,6 +49,7 @@ const mockPosts = [
     hashtags: ["painting"],
   },
   {
+    id: "629621ccddb32826175e5b9b",
     picture: "picture8.jpg",
     user: "629621ccddb32826175e5b9e",
     caption: "Picture 8",

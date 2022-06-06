@@ -1,6 +1,7 @@
-const { getPosts } = require("./postControllers");
+const { mockPosts } = require("../../mocks/postMocks");
+const { getPosts, deletePost } = require("./postControllers");
 
-const mockPosts = [
+const posts = [
   {
     picture: "picture1.jpg",
     user: "1234",
@@ -45,6 +46,14 @@ jest.mock("../../database/models/Post", () => ({
   ]),
   limit: jest.fn().mockReturnThis(),
   find: jest.fn().mockReturnThis(),
+  findByIdAndDelete: jest.fn().mockResolvedValue({
+    id: "629621ccddb32826175e5b9b",
+    picture: "picture8.jpg",
+    user: "629621ccddb32826175e5b9e",
+    caption: "Picture 8",
+    date: "2019-04-23T18:25:43.511Z",
+    hashtags: ["painting"],
+  }),
 }));
 
 describe("Given the getPosts controller", () => {
@@ -66,8 +75,67 @@ describe("Given the getPosts controller", () => {
 
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
-        posts: [mockPosts[2], mockPosts[3]],
+        posts: [posts[2], posts[3]],
       });
+    });
+  });
+
+  describe("When it receives a request with a page size 2 and no page, a response and a next function", () => {
+    test("Then it should call next with a 400 error and 'Please provide a page and a page size'", async () => {
+      const req = {
+        params: {
+          pageSize: 2,
+          page: null,
+        },
+      };
+      const expectedError = new Error();
+      expectedError.customMessage = "Please provide a page and a page size";
+      expectedError.statusCode = 400;
+      const next = jest.fn();
+
+      await getPosts(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given the deletePost controller", () => {
+  describe("When it receives a request with and id: ", () => {
+    test("Then it should call res' status and json methods with 200 and the object deleted respectively", async () => {
+      const req = {
+        params: {
+          if: "629621ccddb32826175e5b9b",
+        },
+      };
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+      const next = jest.fn();
+
+      await deletePost(req, res, next);
+
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({ postDeleted: mockPosts[7] });
+    });
+  });
+
+  describe("When it receives a request with no id, a response and a next function", () => {
+    test("Then it should call next with a 400 error with 'Please provide an id'", async () => {
+      const req = {
+        params: {
+          id: null,
+        },
+      };
+      const expectedError = new Error();
+      expectedError.customMessage = "Please provide an id";
+      expectedError.statusCode = 400;
+      const next = jest.fn();
+
+      await deletePost(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
     });
   });
 });
