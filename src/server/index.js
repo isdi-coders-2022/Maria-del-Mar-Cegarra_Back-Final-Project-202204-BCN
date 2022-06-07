@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { default: helmet } = require("helmet");
 const morgan = require("morgan");
+const auth = require("./middlewares/auth");
 const userRouter = require("./routers/userRouter");
 const { notFoundError, generalError } = require("./middlewares/errors");
 const postRouter = require("./routers/postRouters");
@@ -32,7 +33,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 app.use("/user", userRouter);
-app.use("/posts", postRouter);
+app.use("/posts", auth, postRouter);
 
 app.use(notFoundError);
 app.use(generalError);
