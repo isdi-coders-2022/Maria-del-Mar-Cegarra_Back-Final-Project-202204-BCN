@@ -1,5 +1,5 @@
 const { mockPosts } = require("../../../mocks/postMocks");
-const { getPosts, deletePost } = require("./postControllers");
+const { getPosts, deletePost, createPost } = require("./postControllers");
 
 const posts = [
   {
@@ -54,6 +54,7 @@ jest.mock("../../../database/models/Post", () => ({
     date: "2019-04-23T18:25:43.511Z",
     hashtags: ["painting"],
   }),
+  create: jest.fn().mockResolvedValue(mockPosts[0]),
 }));
 
 describe("Given the getPosts controller", () => {
@@ -105,7 +106,7 @@ describe("Given the deletePost controller", () => {
     test("Then it should call res' status and json methods with 200 and the object deleted respectively", async () => {
       const req = {
         params: {
-          if: "629621ccddb32826175e5b9b",
+          id: "629621ccddb32826175e5b9b",
         },
       };
       const res = {
@@ -136,6 +137,53 @@ describe("Given the deletePost controller", () => {
       await deletePost(req, null, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given the createPost controller", () => {
+  const next = jest.fn();
+  describe("When it receives a request with a new post, res and next", () => {
+    test("Then it should call res' status and json methods with 201 and the new post respectively", async () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+      const req = {
+        body: mockPosts[0],
+        file: {
+          filename: "sunsetimage",
+          originalname: "sunset.jpg",
+        },
+        userId: "2323",
+      };
+
+      await createPost(req, res, next);
+
+      expect(res.status).toHaveBeenCalledWith(201);
+      expect(res.json).toHaveBeenCalledWith({ post: mockPosts[0] });
+    });
+  });
+
+  describe("When it's invoqued with a request that has a new project and a file but fails on renaming it's name", () => {
+    test("Then it should call next", async () => {
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+      const req = {
+        body: mockPosts[0],
+        file: {},
+        userId: "mockid",
+      };
+      jest.mock("fs", () => ({
+        ...jest.requireActual("fs"),
+        rename: jest.fn().mockRejectedValueOnce(-1),
+      }));
+
+      await createPost(req, res, next);
+
+      expect(next).toHaveBeenCalled();
     });
   });
 });
