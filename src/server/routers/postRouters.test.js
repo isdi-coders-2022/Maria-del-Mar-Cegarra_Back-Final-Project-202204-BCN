@@ -10,6 +10,8 @@ let postsTest;
 let postsUsersTest;
 let postToDelete;
 const testDB = process.env.MONGODB_STRING_TEST;
+const token =
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.eMIpLlVCMKbaSTGdjclRX1UORi625fxVrP-1KzD7L3U";
 
 beforeAll(async () => {
   await connectDB(testDB);
@@ -47,6 +49,7 @@ describe("Given the /posts/pageSize=2&page=2 endpoint", () => {
 
       const { body } = await request(app)
         .get(`/posts/pageSize=${pageSize}&page=${page}`)
+        .set("Authorization", token)
         .expect(200);
 
       expect(body.posts[0].picture).toBe(expectedBody.posts[0].picture);
@@ -72,6 +75,7 @@ describe("Given the /posts/delete/629621ccddb32826175e5b9b endpoint", () => {
 
       const { body } = await request(app)
         .delete(`/posts/delete/${idPostDelete}`)
+        .set("Authorization", token)
         .expect(200);
 
       expect(body.postDeleted).toEqual(expectedBody.postDeleted);
