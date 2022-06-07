@@ -1,4 +1,4 @@
-const { mockPosts } = require("../../mocks/postMocks");
+const { mockPosts } = require("../../../mocks/postMocks");
 const { getPosts, deletePost } = require("./postControllers");
 
 const posts = [
@@ -28,8 +28,8 @@ const posts = [
   },
 ];
 
-jest.mock("../../database/models/Post", () => ({
-  ...jest.requireActual("../../database/models/Post"),
+jest.mock("../../../database/models/Post", () => ({
+  ...jest.requireActual("../../../database/models/Post"),
   skip: jest.fn().mockResolvedValue([
     {
       picture: "picture3.jpg",

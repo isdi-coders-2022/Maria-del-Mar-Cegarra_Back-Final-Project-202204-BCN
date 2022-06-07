@@ -1,6 +1,6 @@
 const debug = require("debug")("set-appArt:server:postControllers");
 const chalk = require("chalk");
-const Post = require("../../database/models/Post");
+const Post = require("../../../database/models/Post");
 
 const getPosts = async (req, res, next) => {
   const { pageSize, page } = req.params;

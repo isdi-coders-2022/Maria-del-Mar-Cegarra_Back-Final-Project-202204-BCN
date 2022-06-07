@@ -2,7 +2,10 @@ require("dotenv").config();
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const { registerUser, loginUser } = require("../controllers/userControllers");
+const {
+  registerUser,
+  loginUser,
+} = require("../controllers/userControllers/userControllers");
 
 const userRouter = express.Router();
 const uploads = multer({ dest: path.join("uploads", "images") });

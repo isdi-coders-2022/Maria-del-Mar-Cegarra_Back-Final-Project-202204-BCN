@@ -3,7 +3,7 @@ const debug = require("debug")("set-appArt:server:userControllers");
 const chalk = require("chalk");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const User = require("../../database/models/User");
+const User = require("../../../database/models/User");
 
 const registerUser = async (req, res, next) => {
   const { name, username, password } = req.body;
