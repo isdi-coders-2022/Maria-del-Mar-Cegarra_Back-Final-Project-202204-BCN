@@ -74,7 +74,7 @@ const createPost = async (req, res, next) => {
         path.join("uploads", "images", newFileName),
         (error) => {
           if (error) {
-            debug(chalk.red("Error renaming image of project"));
+            debug(chalk.red("Error renaming picture post"));
 
             next(error);
           }
@@ -87,7 +87,7 @@ const createPost = async (req, res, next) => {
     res.status(201).json({ post: createdPost });
   } catch (error) {
     error.statusCode = 409;
-    error.customMessage = "Couldn't create project";
+    error.customMessage = "Couldn't create post";
     debug(chalk.red(error.message));
 
     next(error);

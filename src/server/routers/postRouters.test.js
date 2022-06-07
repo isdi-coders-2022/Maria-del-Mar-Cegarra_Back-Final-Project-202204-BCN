@@ -10,8 +10,6 @@ let postsTest;
 let postsUsersTest;
 let postToDelete;
 const testDB = process.env.MONGODB_STRING_TEST;
-const token =
-  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.eMIpLlVCMKbaSTGdjclRX1UORi625fxVrP-1KzD7L3U";
 
 beforeAll(async () => {
   await connectDB(testDB);
@@ -40,6 +38,11 @@ afterAll(async () => {
   await mongoose.connection.close();
 });
 
+jest.mock("jsonwebtoken", () => ({
+  ...jest.requireActual("jsonwebtoken"),
+  verify: () => "verified token",
+}));
+
 describe("Given the /posts/pageSize=2&page=2 endpoint", () => {
   describe("When a GET request is ", () => {
     test("Then it should respond with status 200 and 2 post object skipping the first 2", async () => {
@@ -49,7 +52,7 @@ describe("Given the /posts/pageSize=2&page=2 endpoint", () => {
 
       const { body } = await request(app)
         .get(`/posts/pageSize=${pageSize}&page=${page}`)
-        .set("Authorization", token)
+        .set("Authorization", "Bearer token")
         .expect(200);
 
       expect(body.posts[0].picture).toBe(expectedBody.posts[0].picture);
@@ -75,10 +78,27 @@ describe("Given the /posts/delete/629621ccddb32826175e5b9b endpoint", () => {
 
       const { body } = await request(app)
         .delete(`/posts/delete/${idPostDelete}`)
-        .set("Authorization", token)
+        .set("Authorization", "Bearer token")
         .expect(200);
 
       expect(body.postDeleted).toEqual(expectedBody.postDeleted);
+    });
+  });
+});
+
+describe("Given the /posts/create endpoint", () => {
+  describe("When a POST request is made with a new post in it's body", () => {
+    test("Then it should respond with status 201 and the new post", async () => {
+      Post.create = jest.fn().mockResolvedValueOnce(mockPosts[0]);
+      const expectedBody = {
+        post: mockPosts[0],
+      };
+      const { body } = await request(app)
+        .post("/posts/create")
+        .set({ authorization: "Bearer token" })
+        .expect(201);
+
+      expect(body).toEqual(expectedBody);
     });
   });
 });
