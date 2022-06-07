@@ -2,9 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const { default: helmet } = require("helmet");
 const morgan = require("morgan");
-const auth = require("./middlewares/auth");
+const auth = require("./middlewares/auth/auth");
 const userRouter = require("./routers/userRouter");
-const { notFoundError, generalError } = require("./middlewares/errors");
+const { notFoundError, generalError } = require("./middlewares/errors/errors");
 const postRouter = require("./routers/postRouters");
 
 const app = express();

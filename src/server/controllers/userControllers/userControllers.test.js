@@ -1,5 +1,5 @@
 const { compare } = require("bcrypt");
-const { findOne, create } = require("../../database/models/User");
+const { findOne, create } = require("../../../database/models/User");
 const { registerUser, loginUser } = require("./userControllers");
 
 const mockUser = {
@@ -9,8 +9,8 @@ const mockUser = {
 };
 const mockToken = "uwuwuwuwu";
 
-jest.mock("../../database/models/User", () => ({
-  ...jest.requireActual("../../database/models/User"),
+jest.mock("../../../database/models/User", () => ({
+  ...jest.requireActual("../../../database/models/User"),
   create: jest.fn(),
   findOne: jest.fn(),
 }));
