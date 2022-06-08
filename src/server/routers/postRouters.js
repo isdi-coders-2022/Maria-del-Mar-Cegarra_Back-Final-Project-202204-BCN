@@ -2,8 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-// const multer = require("multer");
-// const path = require("path");
+
 const {
   getPosts,
   deletePost,
@@ -11,7 +10,11 @@ const {
 } = require("../controllers/postControllers/postControllers");
 
 const postRouter = express.Router();
-const uploads = multer({ dest: path.join("uploads", "images") });
+const maxSize = 200 * 1024 * 1024;
+const uploads = multer({
+  dest: path.join("uploads", "images"),
+  limits: { fileSize: maxSize },
+});
 
 postRouter.get("/pageSize=:pageSize&page=:page", getPosts);
 postRouter.delete("/delete/:id", deletePost);
