@@ -64,8 +64,9 @@ const firebase = async (req, res, next) => {
           );
         }
       );
+    } else {
+      next();
     }
-    next();
   } catch (error) {
     error.statusCode = 400;
     error.customMessage = "Couldn't process images";
