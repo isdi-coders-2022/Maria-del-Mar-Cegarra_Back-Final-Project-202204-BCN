@@ -78,4 +78,27 @@ const createPost = async (req, res, next) => {
   }
 };
 
-module.exports = { getPosts, deletePost, createPost };
+const editPost = async (req, res, next) => {
+  const { postId } = req.params;
+  const post = req.body;
+  try {
+    if (!postId) {
+      const error = new Error();
+      error.statusCode = 400;
+      error.customMessage = "PostId not provided";
+
+      next(error);
+      return;
+    }
+    await Post.findByIdAndUpdate({ _id: postId }, post);
+
+    res.status(204).json({});
+  } catch (error) {
+    error.statusCode = 409;
+    error.customMessage = "Not modified";
+
+    next(error);
+  }
+};
+
+module.exports = { getPosts, deletePost, createPost, editPost };
