@@ -21,7 +21,6 @@ const firebase = async (req, res, next) => {
   };
 
   const firebaseApp = initializeApp(firebaseConfig);
-  console.log(firebaseApp);
 
   const { file } = req;
 
