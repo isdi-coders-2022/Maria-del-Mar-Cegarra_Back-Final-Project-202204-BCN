@@ -43,6 +43,21 @@ jest.mock("jsonwebtoken", () => ({
   verify: () => "verified token",
 }));
 
+jest.mock("firebase/app", () => ({
+  ...jest.requireActual("firebase/app"),
+  initializeApp: () => "firebaseApp",
+}));
+
+jest.mock("firebase/storage", () => ({
+  ...jest.requireActual("firebase/storage"),
+  getStorage: () => "mockStorage",
+  ref: () => "mockStorageRef",
+  uploadBytes: jest.fn().mockResolvedValue("Mockly uploaded bytes"),
+  getDownloadURL: jest
+    .fn()
+    .mockResolvedValue("pictureBackup.firebase.picture1.jpg"),
+}));
+
 describe("Given the /posts/pageSize=2&page=2 endpoint", () => {
   describe("When a GET request is ", () => {
     test("Then it should respond with status 200 and 2 post object skipping the first 2", async () => {
@@ -73,6 +88,7 @@ describe("Given the /posts/delete/629621ccddb32826175e5b9b endpoint", () => {
           caption: "Picture 8",
           date: "2019-04-23T18:25:43.511Z",
           hashtags: ["painting"],
+          pictureBackup: "pictureBackup.firebase.picture8.jpg",
         },
       };
 
@@ -95,6 +111,15 @@ describe("Given the /posts/create endpoint", () => {
       };
       const { body } = await request(app)
         .post("/posts/create")
+        .type("multipart/form-data")
+        .field("caption", mockPosts[0].caption)
+        .field("hashtags", JSON.stringify(mockPosts[0].hashtags))
+        .field("user", mockPosts[0].user)
+        .field("gallery", mockPosts[0].gallery)
+        .attach("picture", Buffer.from("mockImageString", "utf-8"), {
+          filename: "mockiamge",
+          originalname: mockPosts[0].picture,
+        })
         .set({ authorization: "Bearer token" })
         .expect(201);
 

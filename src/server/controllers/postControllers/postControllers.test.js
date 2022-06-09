@@ -53,6 +53,7 @@ jest.mock("../../../database/models/Post", () => ({
     caption: "Picture 8",
     date: "2019-04-23T18:25:43.511Z",
     hashtags: ["painting"],
+    pictureBackup: "pictureBackup.firebase.picture8.jpg",
   }),
   create: jest.fn().mockResolvedValue(mockPosts[0]),
 }));
@@ -162,28 +163,6 @@ describe("Given the createPost controller", () => {
 
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledWith({ post: mockPosts[0] });
-    });
-  });
-
-  describe("When it's invoqued with a request that has a new project and a file but fails on renaming it's name", () => {
-    test("Then it should call next", async () => {
-      const res = {
-        status: jest.fn().mockReturnThis(),
-        json: jest.fn(),
-      };
-      const req = {
-        body: mockPosts[0],
-        file: {},
-        userId: "mockid",
-      };
-      jest.mock("fs", () => ({
-        ...jest.requireActual("fs"),
-        rename: jest.fn().mockRejectedValueOnce(-1),
-      }));
-
-      await createPost(req, res, next);
-
-      expect(next).toHaveBeenCalled();
     });
   });
 });

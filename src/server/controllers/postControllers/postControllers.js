@@ -1,7 +1,5 @@
 const debug = require("debug")("set-appArt:server:postControllers");
 const chalk = require("chalk");
-const fs = require("fs");
-const path = require("path");
 const Post = require("../../../database/models/Post");
 
 const getPosts = async (req, res, next) => {
@@ -53,35 +51,21 @@ const deletePost = async (req, res, next) => {
 };
 
 const createPost = async (req, res, next) => {
+  const { caption, userId, hashtags, gallery, picture, pictureBackup } =
+    req.body;
+  const date = Date.now();
+
+  const newPost = {
+    user: userId,
+    caption,
+    date,
+    hashtags,
+    gallery,
+    picture,
+    pictureBackup,
+  };
+
   try {
-    const { caption, userId, hashtags, gallery } = req.body;
-    const date = Date.now();
-    const newPost = {
-      user: userId,
-      caption,
-      date,
-      hashtags,
-      gallery,
-    };
-
-    const { file } = req;
-    if (file) {
-      const newFileName = `${file.originalname.split(".")[0]}-${Date.now()}.${
-        file.originalname.split(".")[1]
-      }`;
-      fs.rename(
-        path.join("uploads", "images", file.filename),
-        path.join("uploads", "images", newFileName),
-        (error) => {
-          if (error) {
-            debug(chalk.red("Error renaming picture post"));
-
-            next(error);
-          }
-        }
-      );
-      newPost.picture = newFileName;
-    }
     const createdPost = await Post.create(newPost);
 
     res.status(201).json({ post: createdPost });

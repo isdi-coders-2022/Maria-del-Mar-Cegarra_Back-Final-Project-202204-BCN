@@ -5,6 +5,10 @@ const PostSchema = new Schema({
     type: String,
     required: true,
   },
+  pictureBackup: {
+    type: String,
+    required: true,
+  },
   user: {
     type: SchemaTypes.ObjectId,
     ref: "User",
