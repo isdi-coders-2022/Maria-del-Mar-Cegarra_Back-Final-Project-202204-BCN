@@ -22,6 +22,8 @@ const corsOptions = {
     "http://localhost:5002",
     "https://maria-del-mar-cegarra-back-final-project.onrender.com/",
     "https://maria-del-mar-cegarra-back-final-project.onrender.com",
+    "https://maria-del-mar-cegarra-front-final-project-202204-bcn.netlify.app/",
+    "https://maria-del-mar-cegarra-front-final-project-202204-bcn.netlify.app",
   ],
 };
 
