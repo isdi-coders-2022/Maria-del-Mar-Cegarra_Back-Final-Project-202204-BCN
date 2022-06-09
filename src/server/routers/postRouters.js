@@ -8,6 +8,7 @@ const {
   deletePost,
   createPost,
   editPost,
+  getOnePost,
 } = require("../controllers/postControllers/postControllers");
 const firebase = require("../middlewares/firebase/firebase");
 
@@ -22,5 +23,6 @@ postRouter.get("/pageSize=:pageSize&page=:page", getPosts);
 postRouter.delete("/delete/:id", deletePost);
 postRouter.patch("/edit/:postId", editPost);
 postRouter.post("/create", uploads.single("picture"), firebase, createPost);
+postRouter.get("/:postId", getOnePost);
 
 module.exports = postRouter;

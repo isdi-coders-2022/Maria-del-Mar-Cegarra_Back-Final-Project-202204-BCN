@@ -20,7 +20,7 @@ const getPosts = async (req, res, next) => {
     res.status(200).json({ posts });
   } catch (error) {
     error.statusCode = 409;
-    error.customMessage = "Error getting post";
+    error.customMessage = "Error getting posts";
     debug(chalk.red(error.message));
 
     next(error);
@@ -101,4 +101,27 @@ const editPost = async (req, res, next) => {
   }
 };
 
-module.exports = { getPosts, deletePost, createPost, editPost };
+const getOnePost = async (req, res, next) => {
+  const { postId } = req.params;
+  if (!postId) {
+    const error = new Error();
+    error.statusCode = 400;
+    error.customMessage = "Please provide a post id size";
+    debug(chalk.red(error.customMessage));
+
+    next(error);
+  }
+  try {
+    const post = await Post.findById(postId);
+
+    res.status(200).json({ post });
+  } catch (error) {
+    error.statusCode = 409;
+    error.customMessage = "Error getting post";
+    debug(chalk.red(error.message));
+
+    next(error);
+  }
+};
+
+module.exports = { getPosts, deletePost, createPost, editPost, getOnePost };
