@@ -7,6 +7,7 @@ const {
   getPosts,
   deletePost,
   createPost,
+  editPost,
 } = require("../controllers/postControllers/postControllers");
 const firebase = require("../middlewares/firebase/firebase");
 
@@ -19,6 +20,7 @@ const uploads = multer({
 
 postRouter.get("/pageSize=:pageSize&page=:page", getPosts);
 postRouter.delete("/delete/:id", deletePost);
+postRouter.patch("/edit/:postId", editPost);
 postRouter.post("/create", uploads.single("picture"), firebase, createPost);
 
 module.exports = postRouter;
