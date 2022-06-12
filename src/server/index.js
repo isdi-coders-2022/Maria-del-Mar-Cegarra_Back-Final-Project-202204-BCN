@@ -6,6 +6,7 @@ const auth = require("./middlewares/auth/auth");
 const userRouter = require("./routers/userRouter");
 const { notFoundError, generalError } = require("./middlewares/errors/errors");
 const postRouter = require("./routers/postRouters");
+const galleryRouter = require("./routers/gallery/galleryRouters");
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use(express.static("uploads"));
 
 app.use("/user", userRouter);
 app.use("/posts", auth, postRouter);
+app.use("/galleries", auth, galleryRouter);
 
 app.use(notFoundError);
 app.use(generalError);
