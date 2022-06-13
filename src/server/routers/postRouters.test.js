@@ -61,7 +61,7 @@ jest.mock("firebase/storage", () => ({
 describe("Given the /posts/pageSize=2&page=2 endpoint", () => {
   describe("When a GET request is ", () => {
     test("Then it should respond with status 200 and 2 post object skipping the first 2", async () => {
-      const expectedBody = { posts: [mockPosts[2], mockPosts[3]] };
+      const expectedBody = { posts: [mockPosts[1], mockPosts[0]] };
       const pageSize = 2;
       const page = 2;
 

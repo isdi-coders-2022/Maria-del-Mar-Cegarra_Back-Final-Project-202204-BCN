@@ -1,5 +1,10 @@
 const { mockPosts } = require("../../../mocks/postMocks");
-const { getPosts, deletePost, createPost } = require("./postControllers");
+const {
+  getPosts,
+  deletePost,
+  createPost,
+  getUserPosts,
+} = require("./postControllers");
 
 const posts = [
   {
@@ -56,6 +61,8 @@ jest.mock("../../../database/models/Post", () => ({
     pictureBackup: "pictureBackup.firebase.picture8.jpg",
   }),
   create: jest.fn().mockResolvedValue(mockPosts[0]),
+  populate: jest.fn().mockReturnThis(),
+  sort: jest.fn().mockReturnThis(),
 }));
 
 describe("Given the getPosts controller", () => {
@@ -163,6 +170,32 @@ describe("Given the createPost controller", () => {
 
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledWith({ post: mockPosts[0] });
+    });
+  });
+});
+
+describe("Given the getUserPosts controller", () => {
+  describe("When it receives a request with a page size 2 and page 2, a response and a next function", () => {
+    test("Then it should call res' status and json methods with 200 and 2 post objects respectively", async () => {
+      const req = {
+        params: {
+          userId: "1234",
+          pageSize: 2,
+          page: 2,
+        },
+      };
+      const res = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      };
+      const next = jest.fn();
+
+      await getUserPosts(req, res, next);
+
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        posts: [posts[2], posts[3]],
+      });
     });
   });
 });

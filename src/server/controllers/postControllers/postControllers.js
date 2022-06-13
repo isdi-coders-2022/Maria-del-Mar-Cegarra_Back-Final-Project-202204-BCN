@@ -14,6 +14,9 @@ const getPosts = async (req, res, next) => {
   }
   try {
     const posts = await Post.find({})
+      .populate("user")
+      .populate("gallery")
+      .sort({ date: -1 })
       .limit(pageSize)
       .skip(pageSize * (page - 1));
 
@@ -106,7 +109,7 @@ const getOnePost = async (req, res, next) => {
   if (!postId) {
     const error = new Error();
     error.statusCode = 400;
-    error.customMessage = "Please provide a post id size";
+    error.customMessage = "Please provide a post id";
     debug(chalk.red(error.customMessage));
 
     next(error);
@@ -124,4 +127,39 @@ const getOnePost = async (req, res, next) => {
   }
 };
 
-module.exports = { getPosts, deletePost, createPost, editPost, getOnePost };
+const getUserPosts = async (req, res, next) => {
+  const { userId, page, pageSize } = req.params;
+  if (!userId) {
+    const error = new Error();
+    error.statusCode = 400;
+    error.customMessage = "Please provide a user id";
+    debug(chalk.red(error.customMessage));
+
+    next(error);
+  }
+  try {
+    const posts = await Post.find({ user: userId })
+      .populate("user")
+      .populate("gallery")
+      .sort({ date: -1 })
+      .limit(pageSize)
+      .skip(pageSize * (page - 1));
+
+    res.status(200).json({ posts });
+  } catch (error) {
+    error.statusCode = 409;
+    error.customMessage = "Error getting post";
+    debug(chalk.red(error.message));
+
+    next(error);
+  }
+};
+
+module.exports = {
+  getPosts,
+  deletePost,
+  createPost,
+  editPost,
+  getOnePost,
+  getUserPosts,
+};
