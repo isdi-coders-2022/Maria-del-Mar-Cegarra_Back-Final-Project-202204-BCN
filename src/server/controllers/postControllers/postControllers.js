@@ -115,7 +115,9 @@ const getOnePost = async (req, res, next) => {
     next(error);
   }
   try {
-    const post = await Post.findById(postId);
+    const post = await Post.findById(postId)
+      .populate("user")
+      .populate("gallery");
 
     res.status(200).json({ post });
   } catch (error) {
