@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 const User = require("../../../database/models/User");
 
 const registerUser = async (req, res, next) => {
-  const { name, username, password } = req.body;
+  const { name, username, password, picture, pictureBackup } = req.body;
   const user = await User.findOne({ username });
 
   if (user) {
@@ -23,6 +23,8 @@ const registerUser = async (req, res, next) => {
       name,
       username,
       password: encryptedPassword,
+      profilePic: picture,
+      profilePicBackup: pictureBackup,
     };
     const newUser = await User.create(newUserData);
     const userData = {
@@ -71,4 +73,27 @@ const loginUser = async (req, res, next) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+const getUser = async (req, res, next) => {
+  const { userId } = req.params;
+  if (!userId) {
+    const error = new Error();
+    error.statusCode = 400;
+    error.customMessage = "Please provide a user id";
+    debug(chalk.red(error.customMessage));
+
+    next(error);
+  }
+  try {
+    const user = await User.findById(userId);
+
+    res.status(200).json({ user });
+  } catch (error) {
+    error.statusCode = 409;
+    error.customMessage = "Error getting user";
+    debug(chalk.red(error.message));
+
+    next(error);
+  }
+};
+
+module.exports = { registerUser, loginUser, getUser };
