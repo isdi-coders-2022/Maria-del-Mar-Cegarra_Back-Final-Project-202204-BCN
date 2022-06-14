@@ -22,7 +22,7 @@ const uploads = multer({
 
 postRouter.get("/pageSize=:pageSize&page=:page", getPosts);
 postRouter.delete("/delete/:id", deletePost);
-postRouter.patch("/edit/:postId", editPost);
+postRouter.put("/edit/:postId", multer().none(), editPost);
 postRouter.post("/create", uploads.single("picture"), firebase, createPost);
 postRouter.get("/:postId", getOnePost);
 postRouter.get(
