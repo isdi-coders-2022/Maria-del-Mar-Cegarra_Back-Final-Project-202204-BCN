@@ -62,7 +62,7 @@ const createPost = async (req, res, next) => {
     user: userId,
     caption,
     date,
-    hashtags,
+    hashtags: JSON.parse(hashtags),
     gallery,
     picture,
     pictureBackup,
@@ -93,7 +93,11 @@ const editPost = async (req, res, next) => {
       next(error);
       return;
     }
-    await Post.findByIdAndUpdate({ _id: postId }, post);
+    const postEdit = {
+      ...post,
+      hashtags: JSON.parse(post.hashtags),
+    };
+    await Post.findByIdAndUpdate({ _id: postId }, postEdit);
 
     res.status(204).json({});
   } catch (error) {

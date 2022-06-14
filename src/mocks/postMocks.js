@@ -6,7 +6,7 @@ const mockPost8 = new MockPost(
   "629621ccddb32826175e5b9e",
   "Picture 8",
   "2019-04-23T18:25:43.511Z",
-  ["painting"],
+  '["painting"]',
   "pictureBackup.firebase.picture8.jpg"
 );
 mockPost8.id = "629621ccddb32826175e5b9b";
@@ -17,7 +17,7 @@ const mockPosts = [
     "629513c49a68faa58d20c284",
     "Picture 1",
     "2013-04-23T18:25:43.511Z",
-    ["painting"],
+    '["painting"]',
     "pictureBackup.firebase.picture1.jpg"
   ),
   new MockPost(
@@ -25,7 +25,7 @@ const mockPosts = [
     "629621ccddb32826175e5b9e",
     "Picture 2",
     "2013-04-23T18:25:43.511Z",
-    ["painting"],
+    '["painting"]',
     "pictureBackup.firebase.picture2.jpg"
   ),
   new MockPost(
@@ -33,7 +33,7 @@ const mockPosts = [
     "629513c49a68faa58d20c284",
     "Picture 3",
     "2013-04-23T18:25:43.511Z",
-    ["painting"],
+    '["painting"]',
     "pictureBackup.firebase.picture3.jpg"
   ),
   new MockPost(
@@ -41,7 +41,7 @@ const mockPosts = [
     "629621ccddb32826175e5b9e",
     "Picture 4",
     "2013-04-23T18:25:43.511Z",
-    ["painting"],
+    '["painting"]',
     "pictureBackup.firebase.picture4.jpg"
   ),
   new MockPost(
@@ -49,7 +49,7 @@ const mockPosts = [
     "629513c49a68faa58d20c284",
     "Picture 5",
     "2013-04-23T18:25:43.511Z",
-    ["painting"],
+    '["painting"]',
     "pictureBackup.firebase.picture5.jpg"
   ),
   new MockPost(
@@ -57,7 +57,7 @@ const mockPosts = [
     "629621ccddb32826175e5b9e",
     "Picture 6",
     "2013-04-23T18:25:43.511Z",
-    ["painting"],
+    '["painting"]',
     "pictureBackup.firebase.picture8.jpg"
   ),
   new MockPost(
@@ -65,7 +65,7 @@ const mockPosts = [
     "629513c49a68faa58d20c284",
     "Picture 7",
     "2013-04-23T18:25:43.511Z",
-    ["painting"],
+    '["painting"]',
     "pictureBackup.firebase.picture7.jpg"
   ),
   mockPost8,

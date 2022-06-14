@@ -57,7 +57,7 @@ jest.mock("../../../database/models/Post", () => ({
     user: "629621ccddb32826175e5b9e",
     caption: "Picture 8",
     date: "2019-04-23T18:25:43.511Z",
-    hashtags: ["painting"],
+    hashtags: '["painting"]',
     pictureBackup: "pictureBackup.firebase.picture8.jpg",
   }),
   create: jest.fn().mockResolvedValue(mockPosts[0]),
