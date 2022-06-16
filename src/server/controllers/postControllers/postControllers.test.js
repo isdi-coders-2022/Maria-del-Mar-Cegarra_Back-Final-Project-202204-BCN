@@ -5,6 +5,7 @@ const {
   createPost,
   getUserPosts,
   editPost,
+  getOnePost,
 } = require("./postControllers");
 
 const posts = [
@@ -61,10 +62,21 @@ jest.mock("../../../database/models/Post", () => ({
     hashtags: ["painting"],
     pictureBackup: "pictureBackup.firebase.picture8.jpg",
   }),
-  create: jest.fn().mockResolvedValue(mockPosts[0]),
+  create: jest.fn().mockResolvedValue({
+    picture: "picture1.jpg",
+    user: "1234",
+    caption: "Picture 1",
+    date: new Date("2000/2/12"),
+  }),
   populate: jest.fn().mockReturnThis(),
   sort: jest.fn().mockReturnThis(),
   findByIdAndUpdate: jest.fn().mockResolvedValue({}),
+  findById: jest.fn().mockResolvedValue({
+    picture: "picture1.jpg",
+    user: "1234",
+    caption: "Picture 1",
+    date: new Date("2000/2/12"),
+  }),
 }));
 
 describe("Given the getPosts controller", () => {
@@ -160,7 +172,7 @@ describe("Given the createPost controller", () => {
         json: jest.fn(),
       };
       const req = {
-        body: mockPosts[0],
+        body: posts[0],
         file: {
           filename: "sunsetimage",
           originalname: "sunset.jpg",
@@ -171,7 +183,7 @@ describe("Given the createPost controller", () => {
       await createPost(req, res, next);
 
       expect(res.status).toHaveBeenCalledWith(201);
-      expect(res.json).toHaveBeenCalledWith({ post: mockPosts[0] });
+      expect(res.json).toHaveBeenCalledWith({ post: posts[0] });
     });
   });
 });
@@ -211,6 +223,26 @@ describe("Given the editPost controller", () => {
       const next = jest.fn();
 
       await editPost(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given the getOnePost controller", () => {
+  describe("When it receives a request with no postId and next function", () => {
+    test("Then it should call next with error 400 'Please provide a post id'", async () => {
+      const req = {
+        params: {
+          postId: null,
+        },
+      };
+      const next = jest.fn();
+      const expectedError = new Error();
+      expectedError.statusCode = 400;
+      expectedError.customMessage = "Please provide a post id";
+
+      await getOnePost(req, null, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
     });
