@@ -1,6 +1,6 @@
 const { compare } = require("bcrypt");
-const { findOne, create } = require("../../../database/models/User");
-const { registerUser, loginUser } = require("./userControllers");
+const { findOne, create, findById } = require("../../../database/models/User");
+const { registerUser, loginUser, getUser } = require("./userControllers");
 
 const mockUser = {
   name: "Kawaii Neko",
@@ -13,6 +13,7 @@ jest.mock("../../../database/models/User", () => ({
   ...jest.requireActual("../../../database/models/User"),
   create: jest.fn(),
   findOne: jest.fn(),
+  findById: jest.fn(),
 }));
 
 jest.mock("bcrypt", () => ({
@@ -135,6 +136,30 @@ describe("Given the loginUser controller", () => {
       await loginUser(req, null, next);
 
       expect(next).toHaveBeenCalledWith(expectedError);
+    });
+  });
+});
+
+describe("Given the getUser controller", () => {
+  const res = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn(),
+  };
+  describe("When it receives a request with a userId '1234' in the params and a res", () => {
+    test("Then it should call res' status and json methods with 200 and the user respectively", async () => {
+      findById.mockImplementation(() => mockUser);
+      const req = {
+        params: {
+          userId: "1234",
+        },
+      };
+      const expectedStatusCode = 200;
+      const expectedBody = { user: mockUser };
+
+      await getUser(req, res);
+
+      expect(res.status).toHaveBeenCalledWith(expectedStatusCode);
+      expect(res.json).toHaveBeenCalledWith(expectedBody);
     });
   });
 });
